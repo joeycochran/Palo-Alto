@@ -1,3 +1,5 @@
+from panos.firewall import Firewall
+
 palos = ["10.52.48.11","x.x.x.x","x.x.x.x"]
 
 for x in palos:
