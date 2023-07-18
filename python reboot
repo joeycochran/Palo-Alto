@@ -1,5 +1,0 @@
-from panos.firewall import Firewall
-
-fw = Firewall("10.0.0.1", "admin", "mypassword")
-fw.restart()
-#just need to install python and pan-os sdk 

@@ -1,0 +1,9 @@
+palos = ["10.52.48.11"]
+
+for x in palos:
+fw = Firewall(x, "admin", "Pr^!k3NrJdPh5b0a$TxXsXKs")
+info = fw.restart()
+print(info)
+
+#you will need to install python and pan-os sdk 
+
