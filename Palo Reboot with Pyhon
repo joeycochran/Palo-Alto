@@ -1,4 +1,4 @@
-palos = ["10.52.48.11"]
+palos = ["10.52.48.11","x.x.x.x","x.x.x.x"]
 
 for x in palos:
 fw = Firewall(x, "admin", "Pr^!k3NrJdPh5b0a$TxXsXKs")
