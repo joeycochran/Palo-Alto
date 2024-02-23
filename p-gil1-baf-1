@@ -1,0 +1,3275 @@
+!RANCID-CONTENT-TYPE: paloalto
+!
+#
+#hostname: p-gil1-baf-1
+#ip-address: 10.126.8.33
+#public-ip-address: unknown
+#netmask: 255.255.255.0
+#default-gateway: 10.126.8.1
+#ip-assignment: static
+#ipv6-address: unknown
+#ipv6-link-local-address: fe80::a66:1fff:fe00:d9c4/64
+#ipv6-default-gateway:
+#mac-address: 08:66:1f:00:d9:c4
+#family: 5200
+#model: PA-5260
+#serial: 012501002576
+#cloud-mode: non-cloud
+#sw-version: 9.1.4
+#global-protect-client-package-version: 0.0.0
+#url-db: paloaltonetworks
+#global-protect-clientless-vpn-version: 0
+#global-protect-clientless-vpn-release-date:
+#logdb-version: 9.1.21
+#platform-family: 5200
+#high-speed-log-forwarding-mode: off
+#vpn-disable-mode: off
+#multi-vsys: off
+#operational-mode: normal
+#device-certificate-status: None
+#
+#
+
+config {
+  mgt-config {
+    users {
+      admin {
+        phash $1$lpjyomee$iG7LPEzex6Ofqc/eLe914.;
+        permissions {
+          role-based {
+            superuser yes;
+          }
+        }
+      }
+    }
+  }
+  shared {
+    application;
+    application-group;
+    service;
+    service-group;
+    botnet {
+      configuration {
+        http {
+          dynamic-dns {
+            enabled yes;
+            threshold 5;
+          }
+          malware-sites {
+            enabled yes;
+            threshold 5;
+          }
+          recent-domains {
+            enabled yes;
+            threshold 5;
+          }
+          ip-domains {
+            enabled yes;
+            threshold 10;
+          }
+          executables-from-unknown-sites {
+            enabled yes;
+            threshold 5;
+          }
+        }
+        other-applications {
+          irc yes;
+        }
+        unknown-applications {
+          unknown-tcp {
+            destinations-per-hour 10;
+            sessions-per-hour 10;
+            session-length {
+              maximum-bytes 100;
+              minimum-bytes 50;
+            }
+          }
+          unknown-udp {
+            destinations-per-hour 10;
+            sessions-per-hour 10;
+            session-length {
+              maximum-bytes 100;
+              minimum-bytes 50;
+            }
+          }
+        }
+      }
+      report {
+        topn 100;
+        scheduled yes;
+      }
+    }
+    content-preview {
+      application {
+        amazon-chime-conferencing {
+          category collaboration;
+          subcategory internet-conferencing;
+          technology client-server;
+          description "Amazon chime is collaborative app for amazon meetings. This App-ID identifies the voip/video conferencing functionality of amazon-chime.";
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app amazon-chime-base;
+          tag "[Web App]";
+          references {
+            "AWS Chime" {
+              link https://aws.amazon.com/chime/;
+            }
+          }
+          default {
+            port [ tcp/443,80 udp/3478];
+          }
+          use-applications [ amazon-chime-base stun];
+          applicable-decoders [ http ssl];
+          risk 1;
+          preview yes;
+        }
+        amazon-chime-base {
+          ottawa-name amazon-chime;
+          category collaboration;
+          subcategory internet-conferencing;
+          technology client-server;
+          description "This is a collaborative app for online meetings from Amazon. This application includes instant messaging, video/voice conferencing, screen sharing and address book.";
+          appident yes;
+          virus-ident yes;
+          spyware-ident yes;
+          file-type-ident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth yes;
+          used-by-malware no;
+          able-to-transfer-file yes;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          deny-action drop-reset;
+          data-ident yes;
+          cachable no;
+          file-forward yes;
+          can-disable yes;
+          is-saas yes;
+          saas {
+            is-data-breaches no;
+            is-ip-based-restrictions yes;
+            is-poor-financial-viability no;
+            is-poor-terms-of-service no;
+          }
+          tag "[Web App]";
+          references {
+            "AWS Chime" {
+              link https://aws.amazon.com/chime/;
+            }
+          }
+          default {
+            port [ tcp/80,443 udp/7200];
+          }
+          use-applications [ amazon-cloud-drive-base dtls ssl web-browsing websocket];
+          tunnel-applications [ amazon-chime-conferencing amazon-chime-instant-messaging amazon-chime-screen-sharing];
+          applicable-decoders [ http ssl];
+          risk 3;
+          application-container amazon-chime;
+          preview yes;
+        }
+        amazon-chime-instant-messaging {
+          category collaboration;
+          subcategory instant-messaging;
+          technology client-server;
+          description "Amazon chime is collaborative app for amazon meetings. This App-ID identifies the instant messaging functionality for amazon-chime";
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file yes;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          deny-action drop-reset;
+          data-ident yes;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app amazon-chime-base;
+          tag "[Web App]";
+          references {
+            "AWS Chime" {
+              link https://aws.amazon.com/chime/;
+            }
+          }
+          default {
+            port tcp/443,80;
+          }
+          use-applications amazon-chime-base;
+          applicable-decoders [ http ssl];
+          risk 2;
+          preview yes;
+        }
+        amazon-chime-screen-sharing {
+          category collaboration;
+          subcategory internet-conferencing;
+          technology client-server;
+          description "Amazon chime is collaborative app for amazon meetings. This App-ID identifies the screen-share functionality of Amazon chime.";
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app amazon-chime-base;
+          tag "[Web App]";
+          references {
+            "AWS Chime" {
+              link https://aws.amazon.com/chime/;
+            }
+          }
+          default {
+            port tcp/443,80;
+          }
+          use-applications [ amazon-chime-base amazon-chime-conferencing];
+          applicable-decoders [ http ssl];
+          risk 1;
+          preview yes;
+        }
+        c37.118-cmd-frame-data-tx-off {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor Command frame when data transmission off.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app c37.118-command-frame;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications c37.118-command-frame;
+          risk 1;
+          preview yes;
+        }
+        ieee-c37.118-synchrophasor-base {
+          ottawa-name ieee-c37.118-synchrophasor;
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          cachable no;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          tunnel-applications [ c37.118-cmd-frame-data-tx-off c37.118-cmd-frame-data-tx-on c37.118-cmd-frame-extended-frm c37.118-cmd-frame-send-cfg-1 c37.118-cmd-frame-send-cfg-2 c37.118-cmd-frame-send-hdr-frm c37.118-command-frame c37.118-configuration-frame-1 c37.118-configuration-frame-2 c37.118-data-frame c37.118-header-frame];
+          risk 1;
+          application-container ieee-c37.118-synchrophasor;
+          preview yes;
+        }
+        c37.118-cmd-frame-data-tx-on {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor Command frame when data transmission on.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app c37.118-command-frame;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications c37.118-command-frame;
+          risk 1;
+          preview yes;
+        }
+        c37.118-cmd-frame-extended-frm {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor Extended Command frame.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app c37.118-command-frame;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications c37.118-command-frame;
+          risk 1;
+          preview yes;
+        }
+        c37.118-cmd-frame-send-cfg-1 {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor send CFG-1 Command frame.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app c37.118-command-frame;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications c37.118-command-frame;
+          risk 1;
+          preview yes;
+        }
+        c37.118-cmd-frame-send-cfg-2 {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor send CFG-2 Command frame.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app c37.118-command-frame;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications c37.118-command-frame;
+          risk 1;
+          preview yes;
+        }
+        c37.118-cmd-frame-send-hdr-frm {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor send HDR Command frame.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app c37.118-command-frame;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications c37.118-command-frame;
+          risk 1;
+          preview yes;
+        }
+        c37.118-command-frame {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor Command Frame 2.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app ieee-c37.118-synchrophasor-base;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications ieee-c37.118-synchrophasor-base;
+          tunnel-applications [ c37.118-cmd-frame-data-tx-off c37.118-cmd-frame-data-tx-on c37.118-cmd-frame-extended-frm c37.118-cmd-frame-send-cfg-1 c37.118-cmd-frame-send-cfg-2 c37.118-cmd-frame-send-hdr-frm];
+          risk 1;
+          preview yes;
+        }
+        c37.118-configuration-frame-1 {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor Configuration Frame 1.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app ieee-c37.118-synchrophasor-base;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications ieee-c37.118-synchrophasor-base;
+          risk 1;
+          preview yes;
+        }
+        c37.118-configuration-frame-2 {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor Configuration Frame 2.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app ieee-c37.118-synchrophasor-base;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications ieee-c37.118-synchrophasor-base;
+          risk 1;
+          preview yes;
+        }
+        c37.118-data-frame {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor Data Frame.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app ieee-c37.118-synchrophasor-base;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications ieee-c37.118-synchrophasor-base;
+          risk 1;
+          preview yes;
+        }
+        c37.118-header-frame {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "IEEE Standard for Synchrophasor Data Transfer for Power Systems. A phasor network consists of phasor measurement units (PMUs) dispersed throughout the electricity system, Phasor Data Concentrators (PDC) to collect the information and a Supervisory Control And Data Acquisition (SCADA) system at the central control facility. This App-ID detects ieee-c37.118-synchrophasor Header Frame.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app ieee-c37.118-synchrophasor-base;
+          references {
+            IEEE {
+              link http://standards.ieee.org/findstds/standard/C37.118.2-2011.html;
+            }
+          }
+          default {
+            port [ tcp/4712 udp/dynamic];
+          }
+          use-applications ieee-c37.118-synchrophasor-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-acknowledge {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP acknowledge packet.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-base {
+          ottawa-name cn-ip;
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP traffic.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+            WiresharkWiki {
+              link https://wiki.wireshark.org/Protocols/CEA-852;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          tunnel-applications [ cn-ip-acknowledge cn-ip-channel-membership cn-ip-channel-membership-req cn-ip-channel-routing cn-ip-channel-routing-req cn-ip-data-packet cn-ip-device-config-req cn-ip-device-configuration cn-ip-device-registration cn-ip-heartbeat-req cn-ip-heartbeat-rsp cn-ip-segment cn-ip-send-list cn-ip-send-list-req];
+          risk 1;
+          application-container cn-ip;
+          preview yes;
+        }
+        cn-ip {
+          ottawa-name cn-ip;
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP traffic.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+            WiresharkWiki {
+              link https://wiki.wireshark.org/Protocols/CEA-852;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          tunnel-applications [ cn-ip-acknowledge cn-ip-channel-membership cn-ip-channel-membership-req cn-ip-channel-routing cn-ip-channel-routing-req cn-ip-data-packet cn-ip-device-config-req cn-ip-device-configuration cn-ip-device-registration cn-ip-heartbeat-req cn-ip-heartbeat-rsp cn-ip-segment cn-ip-send-list cn-ip-send-list-req];
+          risk 1;
+          application-container cn-ip;
+          preview yes;
+        }
+        cn-ip-channel-membership {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP channel membership packet.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-channel-membership-req {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP channel membership request.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-channel-routing {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP channel routing packet.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-channel-routing-req {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP channel routing request.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-data-packet {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP data packet type.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-device-config-req {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP device configuration request.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-device-configuration {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP device configuration packet.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-device-registration {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP device registration packet.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-heartbeat-req {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP heartbeat request.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-heartbeat-rsp {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP heartbeat response.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-segment {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP segemnt packet.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-send-list {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP send list packet.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        cn-ip-send-list-req {
+          category business-systems;
+          subcategory ics-protocols;
+          technology client-server;
+          description "CN/IP is defined in standard EIA/CEA-852. It is used to transport component network frames such as LON over UDP or TCP. This App-ID detects CN/IP send list request.";
+          alg yes;
+          appident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability no;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode scada;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app cn-ip-base;
+          references {
+            Echelon {
+              link https://www.echelon.com/assets/bltf598b172e7207c9c/078-0312-01C_IP-852_Channel_UG.pdf;
+            }
+          }
+          default {
+            port udp/1628,1629;
+          }
+          use-applications cn-ip-base;
+          risk 1;
+          preview yes;
+        }
+        remotepc {
+          category networking;
+          subcategory remote-access;
+          technology client-server;
+          description "RemotePC provides remote access your office or home computer from anywhere, with Internet connectivity. This App-ID covers the remote access traffic for desktop and mobile remote pc application.";
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file yes;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          parent-app web20_parrent_app;
+          tag "[Web App]";
+          references {
+            RemotePC {
+              link https://www.remotepc.com/;
+            }
+          }
+          default {
+            port tcp/443,80;
+          }
+          use-applications [ ssl web-browsing websocket];
+          implicit-use-applications [ ssl web-browsing];
+          applicable-decoders [ http ssl];
+          risk 2;
+          preview yes;
+        }
+        siemens-s7-comm-plus-create-ob {
+          category business-systems;
+          subcategory ics-protocols;
+          technology network-protocol;
+          description "The S7 Comm Plus protocol is a new version of the original S7 Comm protocol. It is a proprietary communications protocol developed by Siemens that runs between programmable logic controllers (PLCs) of the Siemens S7 family. This App-ID covers the Create Object request traffic of S7 Comm Plus.";
+          alg yes;
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode cotp;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          references {
+            "S7-1500 plus TIA Portal" {
+              link http://www.aainy.com/pdf/rkc_instrument_simatic_s7_1500_plus_tia_portal.pdf;
+            }
+          }
+          default {
+            port tcp/102;
+          }
+          use-applications siemens-s7-comm-plus-base;
+          applicable-decoders cotp;
+          risk 1;
+          preview yes;
+        }
+        siemens-s7-comm-plus-delete-ob {
+          category business-systems;
+          subcategory ics-protocols;
+          technology network-protocol;
+          description "The S7 Comm Plus protocol is a new version of the original S7 Comm protocol. It is a proprietary communications protocol developed by Siemens that runs between programmable logic controllers (PLCs) of the Siemens S7 family. This App-ID covers the Delete Object request traffic of S7 Comm Plus.";
+          alg yes;
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode cotp;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          references {
+            "S7-1500 plus TIA Portal" {
+              link http://www.aainy.com/pdf/rkc_instrument_simatic_s7_1500_plus_tia_portal.pdf;
+            }
+          }
+          default {
+            port tcp/102;
+          }
+          use-applications siemens-s7-comm-plus-base;
+          applicable-decoders cotp;
+          risk 1;
+          preview yes;
+        }
+        siemens-s7-comm-plus-end-seq {
+          category business-systems;
+          subcategory ics-protocols;
+          technology network-protocol;
+          description "The S7 Comm Plus protocol is a new version of the original S7 Comm protocol. It is a proprietary communications protocol developed by Siemens that runs between programmable logic controllers (PLCs) of the Siemens S7 family. This App-ID covers the End Sequence request traffic of S7 Comm Plus.";
+          alg yes;
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode cotp;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          references {
+            "S7-1500 plus TIA Portal" {
+              link http://www.aainy.com/pdf/rkc_instrument_simatic_s7_1500_plus_tia_portal.pdf;
+            }
+          }
+          default {
+            port tcp/102;
+          }
+          use-applications siemens-s7-comm-plus-base;
+          applicable-decoders cotp;
+          risk 1;
+          preview yes;
+        }
+        siemens-s7-comm-plus-explore {
+          category business-systems;
+          subcategory ics-protocols;
+          technology network-protocol;
+          description "The S7 Comm Plus protocol is a new version of the original S7 Comm protocol. It is a proprietary communications protocol developed by Siemens that runs between programmable logic controllers (PLCs) of the Siemens S7 family. This App-ID covers the Explore request traffic of S7 Comm Plus.";
+          alg yes;
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode cotp;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          references {
+            "S7-1500 plus TIA Portal" {
+              link http://www.aainy.com/pdf/rkc_instrument_simatic_s7_1500_plus_tia_portal.pdf;
+            }
+          }
+          default {
+            port tcp/102;
+          }
+          use-applications siemens-s7-comm-plus-base;
+          applicable-decoders cotp;
+          risk 1;
+          preview yes;
+        }
+        siemens-s7-comm-plus-get-mtvar {
+          category business-systems;
+          subcategory ics-protocols;
+          technology network-protocol;
+          description "The S7 Comm Plus protocol is a new version of the original S7 Comm protocol. It is a proprietary communications protocol developed by Siemens that runs between programmable logic controllers (PLCs) of the Siemens S7 family. This App-ID covers the Get Multi Variables request traffic of S7 Comm Plus.";
+          alg yes;
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode cotp;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          references {
+            "S7-1500 plus TIA Portal" {
+              link http://www.aainy.com/pdf/rkc_instrument_simatic_s7_1500_plus_tia_portal.pdf;
+            }
+          }
+          default {
+            port tcp/102;
+          }
+          use-applications siemens-s7-comm-plus-base;
+          applicable-decoders cotp;
+          risk 1;
+          preview yes;
+        }
+        siemens-s7-comm-plus-get-vsstr {
+          category business-systems;
+          subcategory ics-protocols;
+          technology network-protocol;
+          description "The S7 Comm Plus protocol is a new version of the original S7 Comm protocol. It is a proprietary communications protocol developed by Siemens that runs between programmable logic controllers (PLCs) of the Siemens S7 family. This App-ID covers the Get Variable Substreamed request traffic of S7 Comm Plus.";
+          alg yes;
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode cotp;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          references {
+            "S7-1500 plus TIA Portal" {
+              link http://www.aainy.com/pdf/rkc_instrument_simatic_s7_1500_plus_tia_portal.pdf;
+            }
+          }
+          default {
+            port tcp/102;
+          }
+          use-applications siemens-s7-comm-plus-base;
+          applicable-decoders cotp;
+          risk 1;
+          preview yes;
+        }
+        siemens-s7-comm-plus-set-mtvar {
+          category business-systems;
+          subcategory ics-protocols;
+          technology network-protocol;
+          description "The S7 Comm Plus protocol is a new version of the original S7 Comm protocol. It is a proprietary communications protocol developed by Siemens that runs between programmable logic controllers (PLCs) of the Siemens S7 family. This App-ID covers the Set Multi Variables request traffic of S7 Comm Plus.";
+          alg yes;
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode cotp;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          references {
+            "S7-1500 plus TIA Portal" {
+              link http://www.aainy.com/pdf/rkc_instrument_simatic_s7_1500_plus_tia_portal.pdf;
+            }
+          }
+          default {
+            port tcp/102;
+          }
+          use-applications siemens-s7-comm-plus-base;
+          applicable-decoders cotp;
+          risk 1;
+          preview yes;
+        }
+        siemens-s7-comm-plus-set-var {
+          category business-systems;
+          subcategory ics-protocols;
+          technology network-protocol;
+          description "The S7 Comm Plus protocol is a new version of the original S7 Comm protocol. It is a proprietary communications protocol developed by Siemens that runs between programmable logic controllers (PLCs) of the Siemens S7 family. This App-ID covers the Set Variable request traffic of S7 Comm Plus.";
+          alg yes;
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          decode cotp;
+          deny-action drop-reset;
+          cachable no;
+          can-disable yes;
+          new-appid yes;
+          references {
+            "S7-1500 plus TIA Portal" {
+              link http://www.aainy.com/pdf/rkc_instrument_simatic_s7_1500_plus_tia_portal.pdf;
+            }
+          }
+          default {
+            port tcp/102;
+          }
+          use-applications siemens-s7-comm-plus-base;
+          applicable-decoders cotp;
+          risk 1;
+          preview yes;
+        }
+        smtp-starttls {
+          category collaboration;
+          subcategory email;
+          technology client-server;
+          description "The Simple Mail Transfer Protocol (SMTP) is a communication protocol for electronic mail transmission. As an Internet standard, SMTP was first defined in 1982 by RFC 821, and updated in 2008 by RFC 5321. This App-ID covers the SMTP traffic running over TLS encryption after STARTTLS command in SMTP.";
+          alg yes;
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware yes;
+          able-to-transfer-file yes;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse yes;
+          pervasive-use yes;
+          per-direction-regex no;
+          decode smtp;
+          deny-action drop-reset;
+          cachable yes;
+          can-disable yes;
+          new-appid yes;
+          parent-app smtp-base;
+          tag "[Web App]";
+          references {
+            RFC3207 {
+              link https://tools.ietf.org/html/rfc3207;
+            }
+            Wikipedia {
+              link https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol;
+            }
+          }
+          default {
+            port tcp/25,587;
+          }
+          use-applications smtp-base;
+          applicable-decoders smtp;
+          risk 4;
+          preview yes;
+        }
+        smtp-base {
+          ottawa-name smtp;
+          category collaboration;
+          subcategory email;
+          technology client-server;
+          description "Simple Mail Transfer Protocol (SMTP) is the de facto standard for e-mail transmissions across the Internet.";
+          alg yes;
+          appident yes;
+          ident-by-dport yes;
+          virus-ident yes;
+          spyware-ident yes;
+          file-type-ident yes;
+          file-forward yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware yes;
+          able-to-transfer-file yes;
+          has-known-vulnerability yes;
+          tunnel-other-application yes;
+          prone-to-misuse yes;
+          pervasive-use yes;
+          per-direction-regex no;
+          decode smtp;
+          timeout 1800;
+          data-ident yes;
+          tag "[Web App]";
+          references {
+            Wikipedia {
+              link http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol;
+            }
+          }
+          default {
+            port tcp/25,587;
+            extended-port [ tcp/25,587 tcp/465/secure];
+          }
+          tunnel-applications [ ariel hosproxy smtp-starttls];
+          applicable-decoders smtp;
+          risk 5;
+          application-container smtp;
+          preview yes;
+        }
+        starleaf {
+          category collaboration;
+          subcategory internet-conferencing;
+          technology client-server;
+          description "StarLeaf is a UK-based company that provides voice and video conferencing systems for conference rooms and desktops, and software clients for mobile users. This App-ID covers the conferencing traffic for starleaf.";
+          appident yes;
+          vulnerability-ident yes;
+          evasive-behavior no;
+          consume-big-bandwidth no;
+          used-by-malware no;
+          able-to-transfer-file no;
+          has-known-vulnerability yes;
+          tunnel-other-application no;
+          prone-to-misuse no;
+          pervasive-use no;
+          per-direction-regex no;
+          deny-action drop-reset;
+          cachable no;
+          new-appid yes;
+          parent-app web20_parrent_app;
+          tag "[Web App]";
+          references {
+            Wikipedia {
+              link https://en.wikipedia.org/wiki/StarLeaf;
+            }
+          }
+          default {
+            port [ tcp/443,80 udp/24704,3478,1194,500,123];
+          }
+          use-applications [ rtcp rtp-base ssl stun web-browsing websocket];
+          applicable-decoders [ http ssl];
+          risk 1;
+          preview yes;
+        }
+      }
+      application-type {
+        category;
+        technology;
+      }
+    }
+    log-settings {
+      syslog {
+        test {
+          server {
+            test {
+              transport SSL;
+              port 6514;
+              format IETF;
+              server p-cg15-ifxlog-1.movetv.com;
+              facility LOG_USER;
+            }
+          }
+        }
+        p-gil1-ifxcol {
+          server {
+            p-gil1-ifxcol-1 {
+              transport TCP;
+              port 514;
+              format BSD;
+              server 10.126.13.10;
+              facility LOG_USER;
+            }
+          }
+        }
+      }
+      profiles {
+        p-cg15-ifxlog-1.movetv.com {
+          match-list {
+            p-cg15-ifxlog-1-traffic {
+              send-syslog test;
+              log-type traffic;
+              filter "All Logs";
+              send-to-panorama no;
+            }
+          }
+        }
+      }
+      http {
+        p-gil1-ifxlog {
+          server {
+            p-cg15-ifxlog-1.movetv.com {
+              address 74.206.221.46;
+              http-method POST;
+              protocol HTTPS;
+              port 443;
+            }
+          }
+          format {
+            traffic {
+              headers {
+                content-type {
+                  value text/json;
+                }
+                log {
+                  value 1;
+                }
+              }
+              name JSON;
+              url-format /log/$device_name;
+              payload {"action":"$action",
+"action_source":"$action_source",
+"actionflags":"$actionflags",
+"app":"$app",
+"bytes":"$bytes",
+"bytes_received":"$bytes_received",
+"bytes_sent":"$bytes_sent",
+"category":"$category",
+"cef-formatted-receive_time":"$cef-formatted-receive_time",
+"cef-formatted-time_generated":"$cef-formatted-time_generated",
+"device_name":"$device_name",
+"dg_hier_level_1":"$dg_hier_level_1",
+"dg_hier_level_2":"$dg_hier_level_2",
+"dg_hier_level_3":"$dg_hier_level_3",
+"dg_hier_level_4":"$dg_hier_level_4",
+"dport":"$dport",
+"dst":"$dst",
+"dst_uuid":"$dst_uuid",
+"dstloc":"$dstloc",
+"dstuser":"$dstuser",
+"elapsed":"$elapsed",
+"flags":"$flags",
+"from":"$from",
+"imei":"$imei",
+"imsi":"$imsi",
+"inbound_if":"$inbound_if",
+"logset":"$logset",
+"monitortag":"$monitortag",
+"natdport":"$natdport",
+"natdst":"$natdst",
+"natsport":"$natsport",
+"natsrc":"$natsrc",
+"ndpmatches":"$ndpmatches",
+"nftrans":"$nftrans",
+"nthreats":"$nthreats",
+"nurlcount":"$nurlcount",
+"outbound_if":"$outbound_if",
+"packets":"$packets",
+"padding":"$padding",
+"parent_session_id":"$parent_session_id",
+"parent_start_time":"$parent_start_time",
+"pkts_received":"$pkts_received",
+"pkts_sent":"$pkts_sent",
+"proto":"$proto",
+"receive_time":"$receive_time",
+"repeatcnt":"$repeatcnt",
+"rule":"$rule",
+"sender_sw_version":"$sender_sw_version",
+"seqno":"$seqno",
+"serial":"$serial",
+"session_end_reason":"$session_end_reason",
+"sessionid":"$sessionid",
+"sport":"$sport",
+"src":"$src",
+"src_uuid":"$src_uuid",
+"srcloc":"$srcloc",
+"srcuser":"$srcuser",
+"start":"$start",
+"subtype":"$subtype",
+"time_generated":"$time_generated",
+"time_received":"$time_received",
+"to":"$to",
+"tunnel":"$tunnel",
+"tunnelid":"$tunnelid",
+"type":"$type",
+"vsys":"$vsys",
+"vsys_id":"$vsys_id",
+"vsys_name":"$vsys_name"};
+            }
+            system {
+              headers {
+                content-type {
+                  value text/json;
+                }
+                log {
+                  value 1;
+                }
+              }
+              name JSON;
+              url-format /log/$device_name;
+              payload {"actionflags":"$actionflags",
+"cef-formatted-receive_time":"$cef-formatted-receive_time",
+"cef-formatted-time_generated":"$cef-formatted-time_generated",
+"cef-number-of-severity":"$cef-number-of-severity",
+"device_name":"$device_name",
+"dg_hier_level_1":"$dg_hier_level_1",
+"dg_hier_level_2":"$dg_hier_level_2",
+"dg_hier_level_3":"$dg_hier_level_3",
+"dg_hier_level_4":"$dg_hier_level_4",
+"eventid":"$eventid",
+"module":"$module",
+"number-of-severity":"$number-of-severity",
+"object":"$object",
+"opaque":"$opaque",
+"receive_time":"$receive_time",
+"sender_sw_version":"$sender_sw_version",
+"seqno":"$seqno",
+"serial":"$serial",
+"severity":"$severity",
+"subtype":"$subtype",
+"time_generated":"$time_generated",
+"type":"$type",
+"vsys":"$vsys",
+"vsys_id":"$vsys_id",
+"vsys_name":"$vsys_name"};
+            }
+            threat {
+              headers {
+                content-type {
+                  value text/json;
+                }
+                log {
+                  value 1;
+                }
+              }
+              name JSON;
+              url-format /log/$device_name;
+              payload {"action":"$action","actionflags":"$actionflags","app":"$app","assoc_id":"$assoc_id","category":"$category","cef-formatted-receive_time":"$cef-formatted-receive_time","cef-formatted-time_generated":"$cef-formatted-time_generated","cef-number-of-severity":"$cef-number-of-severity","cloud":"$cloud","contenttype":"$contenttype","contentver":"$contentver","device_name":"$device_name","dg_hier_level_1":"$dg_hier_level_1","dg_hier_level_2":"$dg_hier_level_2","dg_hier_level_3":"$dg_hier_level_3","dg_hier_level_4":"$dg_hier_level_4","direction":"$direction","dport":"$dport","dst":"$dst","dst_uuid":"$dst_uuid","dstloc":"$dstloc","dstuser":"$dstuser","file_url":"$file_url","filedigest":"$filedigest","filetype":"$filetype","flags":"$flags","from":"$from","http_headers":"$http_headers","http_method":"$http_method","imei":"$imei","imsi":"$imsi","inbound_if":"$inbound_if","logset":"$logset","misc":"$misc","monitortag":"$monitortag","natdport":"$natdport","natdst":"$natdst","natsport":"$natsport","natsrc":"$natsrc","number-of-severity":"$number-of-severity","outbound_if":"$outbound_if","padding":"$padding","parent_session_id":"$parent_session_id","parent_start_time":"$parent_start_time","pcap_id":"$pcap_id","ppid":"$ppid","proto":"$proto","receive_time":"$receive_time","recipient":"$recipient","referer":"$referer","repeatcnt":"$repeatcnt","reportid":"$reportid","rule":"$rule","sender":"$sender","sender_sw_version":"$sender_sw_version","seqno":"$seqno","serial":"$serial","sessionid":"$sessionid","severity":"$severity","sig_flags":"$sig_flags","sport":"$sport","src":"$src","src_uuid":"$src_uuid","srcloc":"$srcloc","srcuser":"$srcuser","subject":"$subject","subtype":"$subtype","thr_category":"$thr_category","threatid":"$threatid","time_generated":"$time_generated","time_received":"$time_received","to":"$to","tunnel":"$tunnel","tunnelid":"$tunnelid","type":"$type","url_idx":"$url_idx","user_agent":"$user_agent","vsys":"$vsys","vsys_id":"$vsys_id","vsys_name":"$vsys_name","xff":"$xff"};
+            }
+            auth {
+              headers {
+                content-type {
+                  value text/json;
+                }
+                log {
+                  value 1;
+                }
+              }
+              name JSON;
+              url-format /log/$device_name;
+              payload {"actionflags":"$actionflags","authid":"$authid","authpolicy":"$authpolicy","authproto":"$authproto","cef-formatted-receive_time":"$cef-formatted-receive_time","cef-formatted-time_generated":"$cef-formatted-time_generated","clienttype":"$clienttype","config_ver":"$config_ver","desc":"$desc","device_name":"$device_name","dg_hier_level_1":"$dg_hier_level_1","dg_hier_level_2":"$dg_hier_level_2","dg_hier_level_3":"$dg_hier_level_3","dg_hier_level_4":"$dg_hier_level_4","domain":"$domain","event":"$event","factorno":"$factorno","ip":"$ip","logset":"$logset","normalize_user":"$normalize_user","object":"$object","receive_time":"$receive_time","repeatcnt":"$repeatcnt","sender_sw_version":"$sender_sw_version","seqno":"$seqno","serial":"$serial","serverprofile":"$serverprofile","subtype":"$subtype","time_generated":"$time_generated","type":"$type","user":"$user","vendor":"$vendor","vsys":"$vsys","vsys_id":"$vsys_id","vsys_name":"$vsys_name"};
+            }
+          }
+        }
+      }
+      system {
+        match-list {
+          p-gil1-ifxcol-system {
+            send-syslog p-gil1-ifxcol;
+            filter "All Logs";
+          }
+        }
+      }
+    }
+    certificate {
+      cert3 {
+        subject-hash d4c339cb;
+        issuer-hash 3c58f906;
+        not-valid-before "May 30 10:48:38 2000 GMT";
+        issuer "/C=SE/O=AddTrust AB/OU=AddTrust External TTP Network/CN=AddTrust External CA Root";
+        not-valid-after "May 30 10:48:38 2020 GMT";
+        common-name "COMODO RSA Certification Authority";
+        expiry-epoch 1590835718;
+        ca yes;
+        subject "/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority";
+        public-key "-----BEGIN CERTIFICATE-----
+MIIFdDCCBFygAwIBAgIQJ2buVutJ846r13Ci/ITeIjANBgkqhkiG9w0BAQwFADBvMQswCQYDVQQG
+EwJTRTEUMBIGA1UEChMLQWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFkZFRydXN0IEV4dGVybmFsIFRU
+UCBOZXR3b3JrMSIwIAYDVQQDExlBZGRUcnVzdCBFeHRlcm5hbCBDQSBSb290MB4XDTAwMDUzMDEw
+NDgzOFoXDTIwMDUzMDEwNDgzOFowgYUxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1h
+bmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAYBgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMSsw
+KQYDVQQDEyJDT01PRE8gUlNBIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MIICIjANBgkqhkiG9w0B
+AQEFAAOCAg8AMIICCgKCAgEAkehUktIKVrGsDSTdxc9EZ3SZKzejfSNwAHG8U9/E+ioSj0t/EFa9
+n3Byt2F/yUsPF6c947AEYe7/EZfH9IY+Cvo+XPmT5jR62RRr55yzhaCCenavcZDX7P0N+pxs+t+w
+gvQUfvm+xKYvT3+Zf7X8Z0NyvQwA1onrayzT7Y+YHBSrfuXjbvzYqOSSJNpDa2K4Vf3qwbxstovz
+Do2a5JtsaZn4eEgwRdWt4Q08RWD8MpZRJ7xnw8outmvqRsfHIKCxH2XeSAi6pE6p8oNGN4Tr6MyB
+SENnTnIqm1y9TBsoilwie7SrmNnu4FGDwwlGTm0+mfqVF9p8M1dBPI1R7Qu2XK8sYxrfV8g/vOld
+xJuvRZnio1oktLqpVj3Pb6r/SVi+8Kj/9Lit6Tf7urj0Czr56ENCHonYhMsT8dm74YlguIwoVqwU
+HZwK53Hrzw7dPamWoUi9PPevtQ0iTMARgexWO/bTouJbt7IEIlKVgJNp6I5MZfGRAy1wdALqi2cV
+KWlSArvX31BqVUa/oKMoYX9w0MOiqiwhqkfOKJwGRXa/ghgntNWutMtQ5mv0TIZxMOmm3xaG4Nj/
+QN370EKIf6MzOi5cHkERgWPOGHFrK+ymircxXDpqR+DDeVnWIBqv8mqYqnK8V0rSS527EPywTEHl
+7R09XiidnMy/s1Hap0flhFMCAwEAAaOB9DCB8TAfBgNVHSMEGDAWgBStvZh6NLQm9/rEJlTvA73g
+JMtUGjAdBgNVHQ4EFgQUu69+Aj36pvE8hI6t7jiY7NkyMtQwDgYDVR0PAQH/BAQDAgGGMA8GA1Ud
+EwEB/wQFMAMBAf8wEQYDVR0gBAowCDAGBgRVHSAAMEQGA1UdHwQ9MDswOaA3oDWGM2h0dHA6Ly9j
+cmwudXNlcnRydXN0LmNvbS9BZGRUcnVzdEV4dGVybmFsQ0FSb290LmNybDA1BggrBgEFBQcBAQQp
+MCcwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVzZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEMBQAD
+ggEBAGS/g/FfmoXQzbihKVcN6Fr30ek+8nYEbvFScLsePP9NDXRqzIGCJdPDoCpdTPW6i6FtxFQJ
+dcfjJw5dhHk3QBN39bSsHNA7qxcS1u80GH4r6XnTq1dFDK8o+tDb5VCViLvfhVdpfZLYUspzgb8c
+8+a4bmYRBbMelC1/kZWSWfFMzqORcUx8Rww7Cxn2obFshj5cqsQugsv5B5a6SE2Q8pTIqXOi6wZ7
+I53eovNNVZ96YUWYGGjHXkBrI/V5eu+MtWuLt29G9HvxPUsE2JOAWVrgQSQdso8VYFhH2+9uRv0V
+9dlfmrPb2LjkQLPNlzmuhbsdjrzch5vRpu/xO28QOG8=
+-----END CERTIFICATE-----
+";
+        algorithm RSA;
+      }
+      cert4 {
+        subject-hash 3c58f906;
+        issuer-hash 3c58f906;
+        not-valid-before "May 30 10:48:38 2000 GMT";
+        issuer "/C=SE/O=AddTrust AB/OU=AddTrust External TTP Network/CN=AddTrust External CA Root";
+        not-valid-after "May 30 10:48:38 2020 GMT";
+        common-name "AddTrust External CA Root";
+        expiry-epoch 1590835718;
+        ca yes;
+        subject "/C=SE/O=AddTrust AB/OU=AddTrust External TTP Network/CN=AddTrust External CA Root";
+        public-key "-----BEGIN CERTIFICATE-----
+MIIENjCCAx6gAwIBAgIBATANBgkqhkiG9w0BAQUFADBvMQswCQYDVQQGEwJTRTEUMBIGA1UEChML
+QWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFkZFRydXN0IEV4dGVybmFsIFRUUCBOZXR3b3JrMSIwIAYD
+VQQDExlBZGRUcnVzdCBFeHRlcm5hbCBDQSBSb290MB4XDTAwMDUzMDEwNDgzOFoXDTIwMDUzMDEw
+NDgzOFowbzELMAkGA1UEBhMCU0UxFDASBgNVBAoTC0FkZFRydXN0IEFCMSYwJAYDVQQLEx1BZGRU
+cnVzdCBFeHRlcm5hbCBUVFAgTmV0d29yazEiMCAGA1UEAxMZQWRkVHJ1c3QgRXh0ZXJuYWwgQ0Eg
+Um9vdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALf3GjPm8gAELTngTlvtH7xsD821
++iO2zt6bETOXpClMfZOfvUq8k+0DGuOPz+VtUFrWlymUWoCwSXrbLpX9uMq/NzgtHj6RQa1wVsfw
+Tz/oMp50ysiQVOnGXw94nZpAPA6sYapeFI+eh6FqUNzXmk6vBbOmcZSccbNQYArHE504B4YCqOmo
+aSYYkKtMsE8jqzpPhNjfzp/haW+710LXa0Tkx63ubUFfclpxCDezeWWkWaCUN/cALw3CknLa0Dhy
+2xSoRcRdKn23tNbE7qzNE0S3ySvdQwAl+mG5aWpYIxG3pzOPVnVZ9c0p10a3CitlttNCbxWyuHv7
+7+ldU9U0WicCAwEAAaOB3DCB2TAdBgNVHQ4EFgQUrb2YejS0Jvf6xCZU7wO94CTLVBowCwYDVR0P
+BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wgZkGA1UdIwSBkTCBjoAUrb2YejS0Jvf6xCZU7wO94CTL
+VBqhc6RxMG8xCzAJBgNVBAYTAlNFMRQwEgYDVQQKEwtBZGRUcnVzdCBBQjEmMCQGA1UECxMdQWRk
+VHJ1c3QgRXh0ZXJuYWwgVFRQIE5ldHdvcmsxIjAgBgNVBAMTGUFkZFRydXN0IEV4dGVybmFsIENB
+IFJvb3SCAQEwDQYJKoZIhvcNAQEFBQADggEBALCb4IUlwtYj4g+WBpKdQZic2YR5gdkeWxQHIzZl
+j7DYd7usQWxHYINRsPkyPef89iYTx4AWpb9a/IfPeHmJIZriTAcKhjW88t5RxNKWt9x+Tu5w/Rw5
+6wwCURQtjr0W4MHfRnXnJK3s9EK0hZNwEGe6nQY1ShjTK3rMUUKhemPR5ruhxSvCNr4TDea9Y355
+e6cJDUCrat2PisP29owaQgVR1EX1n6diIWgVIEM8med8vSTYqZEXc4g/VhsxOBi0cQ+azcgOno4u
+G+GMmIPLHzHxREzGBHNJdmAPx/i9F4BrLunMTA5amnkPIAou1Z5jJh5VkpTYghdae9C8x49OhgQ=
+-----END CERTIFICATE-----
+";
+        algorithm RSA;
+      }
+      cert2 {
+        subject-hash 01017373;
+        issuer-hash d4c339cb;
+        not-valid-before "Feb 12 00:00:00 2014 GMT";
+        issuer "/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority";
+        not-valid-after "Feb 11 23:59:59 2029 GMT";
+        common-name "COMODO RSA Domain Validation Secure Server CA";
+        expiry-epoch 1865548799;
+        ca yes;
+        subject "/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA";
+        public-key "-----BEGIN CERTIFICATE-----
+MIIGCDCCA/CgAwIBAgIQKy5u6tl1NmwUim7bo3yMBzANBgkqhkiG9w0BAQwFADCBhTELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
+A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxKzApBgNVBAMTIkNPTU9ETyBSU0EgQ2VydGlmaWNhdGlv
+biBBdXRob3JpdHkwHhcNMTQwMjEyMDAwMDAwWhcNMjkwMjExMjM1OTU5WjCBkDELMAkGA1UEBhMC
+R0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UE
+ChMRQ09NT0RPIENBIExpbWl0ZWQxNjA0BgNVBAMTLUNPTU9ETyBSU0EgRG9tYWluIFZhbGlkYXRp
+b24gU2VjdXJlIFNlcnZlciBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAI7CAhnh
+oFmk6zg1jSz9AdDTScBkxwtiBUUWOqigwAwCfx3M28ShbXcDow+G+eMGnD4LgYqbSRutA776S9uM
+IO3Vzl5ljj4Nr0zCsLdFXlIvNN5IJGS0Qa4Al/e+Z96e0HqnU4A7fK31llVvl0cKfIWLIpeNs4Tg
+llfQcBhglo/uLQeTnaG6ytHNe+nEKpooIZFNb5JPJaXyejXdJtxGpdCsWTWM/06RQ1A/WZMebFEh
+7lgUq/51UHg+TLAchhP6a5i84DuUHoVS3AOTJBhuyydRReZw3iVDpA3hSqXttn7IzW3uLh0nc13c
+RTCAquOyQQuvvUSH2rnlG51/ruWFgqUCAwEAAaOCAWUwggFhMB8GA1UdIwQYMBaAFLuvfgI9+qbx
+PISOre44mOzZMjLUMB0GA1UdDgQWBBSQr2o6lFoL2JDqElZz30O0Oija5zAOBgNVHQ8BAf8EBAMC
+AYYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwGwYD
+VR0gBBQwEjAGBgRVHSAAMAgGBmeBDAECATBMBgNVHR8ERTBDMEGgP6A9hjtodHRwOi8vY3JsLmNv
+bW9kb2NhLmNvbS9DT01PRE9SU0FDZXJ0aWZpY2F0aW9uQXV0aG9yaXR5LmNybDBxBggrBgEFBQcB
+AQRlMGMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9jcnQuY29tb2RvY2EuY29tL0NPTU9ET1JTQUFkZFRy
+dXN0Q0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wDQYJKoZIhvcN
+AQEMBQADggIBAE4rdk+SHGI2ibp3wScF9BzWRJ2pmj6q1WZmAT7qSeaiNbz69t2Vjpk1mA42GHWx
+3d1Qcnyu3HeIzg/3kCDKo2cuH1Z/e+FE6kKVxF0NAVBGFfKBiVlsit2M8RKhjTpCipj4SzR7JzsI
+tG8kO3KdY3RYPBpsP0/HEZrIqPW1N+8QRcZs2eBelSaz662jue5/DJpmNXMyYE7l3YphLG5SEXdo
+ltMYdVEVABt0iN3hxzgEQyjpFv3ZBdRdRydg1vs4O2xyopT4Qhrf7W8GjEXCBgCq5Ojc2bXhc3js
+9iPc0d1sjhqPpepUfJa3w/5Vjo1JXvxku88+vZbrac2/4EjxYoIQ5QxGV/Iz2tDIY+3GH5QFlkoa
+kdH368+PUq4NCNk+qKBR6cGHdNXJ93SrLlP7u3r7l+L4HyaPs9Kg4DdbKDsx5Q5XLVq4rXmsXiBm
+GqW5prU5wfWYQ//u+aen/e7KJD2AFsQXj4rBYKEMrltDR5FL1ZoXX/nUh8HCjLfn4g8wGTeGrODc
+QgPmlKidrv0PJFGUzpII0fxQ8ANAe4hZ7Q7drNJ3gjTcBpUC2JD5Leo31Rpg0Gcg19hCC0Wvgmje
+3WYkN5AplBlGGSW4gNfL1IYoakRwJiNiqZ+Gb7+6kHDSVneFeO/qJakXzlByjAA6quPbYzSf+AZx
+AeKCINT+b72x
+-----END CERTIFICATE-----
+";
+        algorithm RSA;
+      }
+      cert1 {
+        subject-hash e59bafe5;
+        issuer-hash 01017373;
+        not-valid-before "Oct 14 00:00:00 2016 GMT";
+        issuer "/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Domain Validation Secure Server CA";
+        not-valid-after "Oct 14 23:59:59 2019 GMT";
+        common-name *.movetv.com;
+        expiry-epoch 1571097599;
+        ca no;
+        subject "/OU=Domain Control Validated/OU=COMODO SSL Unified Communications/CN=*.movetv.com";
+        public-key "-----BEGIN CERTIFICATE-----
+MIIFczCCBFugAwIBAgIRANrYqgEl8a3btlWWpJom9bcwDQYJKoZIhvcNAQELBQAwgZAxCzAJBgNV
+BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
+BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMTYwNAYDVQQDEy1DT01PRE8gUlNBIERvbWFpbiBWYWxp
+ZGF0aW9uIFNlY3VyZSBTZXJ2ZXIgQ0EwHhcNMTYxMDE0MDAwMDAwWhcNMTkxMDE0MjM1OTU5WjBm
+MSEwHwYDVQQLExhEb21haW4gQ29udHJvbCBWYWxpZGF0ZWQxKjAoBgNVBAsTIUNPTU9ETyBTU0wg
+VW5pZmllZCBDb21tdW5pY2F0aW9uczEVMBMGA1UEAwwMKi5tb3ZldHYuY29tMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEAleGEgTIaJt0m/anHqt49ZN5U8kv2Tz56hsmr7avyhgXHgXLx
+biivSM8TGWSWN/aC8sYlOVEmUYnANTUjd3iMl1KyXdkZzE4D/25hV7+Zc6tr+fAKQ37yJ/vlB7ci
+4F5dVp4cOeGe9RXjzttV/DfrXJVpRm96qG47+v/aLnQ/46EmwrGq5hyVvO91hYvP0CxgdJaZI9E8
+Q+CJpjOGJ7rOLR+hpHRZw+mokPIc6e1uuvBJ5sxaL5A3hOIx7HiWNCIJVE/TkOuQJCSh19qTq2gI
+3qxW/BoksUfmRi/f3dB9z3oh1y2DfdA8qL4BcyM422qOPS8108cyvZqWvM+q3A/5pwIDAQABo4IB
+7zCCAeswHwYDVR0jBBgwFoAUkK9qOpRaC9iQ6hJWc99DtDoo2ucwHQYDVR0OBBYEFIx43dn+AhML
+6OwyY6ueubl6Mg70MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsG
+AQUFBwMBBggrBgEFBQcDAjBPBgNVHSAESDBGMDoGCysGAQQBsjEBAgIHMCswKQYIKwYBBQUHAgEW
+HWh0dHBzOi8vc2VjdXJlLmNvbW9kby5jb20vQ1BTMAgGBmeBDAECATBUBgNVHR8ETTBLMEmgR6BF
+hkNodHRwOi8vY3JsLmNvbW9kb2NhLmNvbS9DT01PRE9SU0FEb21haW5WYWxpZGF0aW9uU2VjdXJl
+U2VydmVyQ0EuY3JsMIGFBggrBgEFBQcBAQR5MHcwTwYIKwYBBQUHMAKGQ2h0dHA6Ly9jcnQuY29t
+b2RvY2EuY29tL0NPTU9ET1JTQURvbWFpblZhbGlkYXRpb25TZWN1cmVTZXJ2ZXJDQS5jcnQwJAYI
+KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTA9BgNVHREENjA0ggwqLm1vdmV0di5j
+b22CECouY21zLm1vdmV0di5jb22CEioubW92ZW5ldHdvcmtzLmNvbTANBgkqhkiG9w0BAQsFAAOC
+AQEAE1PVKOyhzgP281h0mI4o3Jeix8zC16mqEpoRapCx7qHwsGXhlL2LsIOqZurGkF1sernhLEbe
+Dr8iivL1A8EPOCN+MxrmaQM7juYkUNc7LdFT+oDAhSRWFxcErPZtNWAvA/Pd1aYHzR5eAyDQsjH6
+ylGUe1sxQtWJbFX4hbI+vm6HBiiSAUkQnNsE9VyI1tnAj8oVdcZYaXIT9q/PchH7HvNEbHfvfJgg
+UEHuQ5ITLrZ0DFwrRnexpQaEWT1Py1FSZOn66/1qM3b7T3S986Tc57neGWPyz2EAhBdIgdC6Gaz6
+jzPgY1ReHS0Xyc63c/E0ouYIDZv6wk5VYGfxicawHg==
+-----END CERTIFICATE-----
+";
+        algorithm RSA;
+      }
+    }
+    ssl-decrypt {
+      trusted-root-CA [ cert3 cert2 cert4];
+    }
+    local-user-database {
+      user-group {
+        TacacsUsers;
+      }
+    }
+    server-profile {
+      tacplus {
+        p-gil1-tacacs {
+          server {
+            p-gil1-tacacs-1.imovetv.com {
+              secret -AQ==LiWL1W3+Qwlge341RlJRdDeKdyE=Z41v20EL3BDEKlTZLml96Q==;
+              port 49;
+              address p-gil1-tacacs-1.imovetv.com;
+            }
+            p-gil1-tacacs-2.imovetv.com {
+              secret -AQ==LiWL1W3+Qwlge341RlJRdDeKdyE=Z41v20EL3BDEKlTZLml96Q==;
+              port 49;
+              address p-gil1-tacacs-2.imovetv.com;
+            }
+          }
+          protocol PAP;
+        }
+      }
+    }
+    authentication-profile {
+      "Local Users" {
+        multi-factor-auth {
+          mfa-enable no;
+        }
+        method {
+          local-database;
+        }
+        allow-list all;
+        username-modifier None;
+      }
+      Auth-Tacacs {
+        multi-factor-auth {
+          mfa-enable no;
+        }
+        method {
+          tacplus {
+            server-profile p-gil1-tacacs;
+            checkgroup yes;
+          }
+        }
+        allow-list TacacsUsers;
+      }
+    }
+    authentication-sequence {
+      MainSequence {
+        authentication-profiles [ Auth-Tacacs "Local Users"];
+      }
+    }
+    application-status {
+      104apci-unnumbered-startdt-act;
+      104apci-unnumbered-startdt-con;
+      104apci-unnumbered-stopdt-act;
+      104apci-unnumbered-stopdt-con;
+      104apci-unnumbered-test-act;
+      104apci-unnumbered-test-con;
+      abb-rp570;
+      addp-dhcp-network-config-req;
+      addp-dhcp-network-config-resp;
+      addp-discovery-request;
+      addp-discovery-response;
+      addp-reboot-request;
+      addp-reboot-response;
+      addp-static-network-config-req;
+      addp-static-network-config-resp;
+      alipay;
+      amazon-prime-video;
+      apache-guacamole;
+      apex-legends;
+      appletvplus;
+      assa-abloy-r3;
+      azure-govt-cloud-blob;
+      azure-govt-cloud-file;
+      azure-govt-cloud-storage;
+      azure-govt-cloud-table;
+      azure-govt-key-vault;
+      azure-log-analytics;
+      bacnet-abort;
+      bacnet-complex-ack;
+      bacnet-error;
+      bacnet-error-ack-alarm;
+      bacnet-error-add-list-element;
+      bacnet-error-atomic-read-file;
+      bacnet-error-atomic-write-file;
+      bacnet-error-conf-cov-notify;
+      bacnet-error-conf-event-notif;
+      bacnet-error-conf-private-trf;
+      bacnet-error-conf-text-mssg;
+      bacnet-error-delete-object;
+      bacnet-error-device-comm-cntrl;
+      bacnet-error-get-alarm-summary;
+      bacnet-error-get-enrollment-sum;
+      bacnet-error-get-event-info;
+      bacnet-error-life-safety-oper;
+      bacnet-error-read-property;
+      bacnet-error-read-property-cond;
+      bacnet-error-read-property-mul;
+      bacnet-error-read-range;
+      bacnet-error-reinitialize-dev;
+      bacnet-error-remove-list-elem;
+      bacnet-error-request-key;
+      bacnet-error-subscribe-cov;
+      bacnet-error-subscribe-cov-prop;
+      bacnet-error-vt-data;
+      bacnet-error-vt-open;
+      bacnet-error-write-prop-mult;
+      bacnet-i-am;
+      bacnet-i-have;
+      bacnet-reject;
+      bacnet-segment-ack;
+      bacnet-simple-ack;
+      bacnet-time-synchronization;
+      bacnet-unconfirmed-cov-notif;
+      bacnet-unconfirmed-event-notif;
+      bacnet-unconfirmed-private-txfr;
+      bacnet-unconfirmed-text-message;
+      bacnet-utc-time-synchronization;
+      bacnet-who-has;
+      bacnet-who-has-access-credent;
+      bacnet-who-has-access-door;
+      bacnet-who-has-access-point;
+      bacnet-who-has-access-right;
+      bacnet-who-has-access-user;
+      bacnet-who-has-access-zone;
+      bacnet-who-has-accumulator;
+      bacnet-who-has-analog-input;
+      bacnet-who-has-analog-output;
+      bacnet-who-has-analog-value;
+      bacnet-who-has-averaging;
+      bacnet-who-has-binary-input;
+      bacnet-who-has-binary-output;
+      bacnet-who-has-binary-value;
+      bacnet-who-has-bitstring-value;
+      bacnet-who-has-calendar;
+      bacnet-who-has-command;
+      bacnet-who-has-cred-data-input;
+      bacnet-who-has-date-pattern-val;
+      bacnet-who-has-date-value;
+      bacnet-who-has-device;
+      bacnet-who-has-event-enrollment;
+      bacnet-who-has-event-log;
+      bacnet-who-has-global-group;
+      bacnet-who-has-group;
+      bacnet-who-has-integer-value;
+      bacnet-who-has-large-analog-val;
+      bacnet-who-has-life-safety-pt;
+      bacnet-who-has-life-safety-zone;
+      bacnet-who-has-multi-state-in;
+      bacnet-who-has-multi-state-out;
+      bacnet-who-has-multi-state-val;
+      bacnet-who-has-network-security;
+      bacnet-who-has-notification-cls;
+      bacnet-who-has-octatestring-val;
+      bacnet-who-has-pulse-converter;
+      bacnet-who-has-schedule;
+      bacnet-who-has-structured-view;
+      bacnet-who-has-time-pattern-val;
+      bacnet-who-has-time-value;
+      bacnet-who-has-trend-log;
+      bacnet-who-has-trend-log-mul;
+      bacnet-who-is;
+      balbix;
+      bbraun-space;
+      betternetvpn;
+      beyond-trust-remote-support;
+      bigbluebutton;
+      blackboard-collaborate;
+      bluejeans-downloading;
+      bluejeans-uploading;
+      cip-ethernet-ip-disable-io;
+      cip-ethernet-ip-disable-sfc;
+      cip-ethernet-ip-enable-io;
+      cip-ethernet-ip-enable-sfc;
+      cip-ethernet-ip-read-mod-write;
+      cip-ethernet-ip-read-tag;
+      cip-ethernet-ip-read-tag-frag;
+      cip-ethernet-ip-run;
+      cip-ethernet-ip-stop;
+      cip-ethernet-ip-test-mode;
+      cip-ethernet-ip-write-tag;
+      cip-ethernet-ip-write-tag-frag;
+      cisco-viptela-ipsec-esp;
+      classdojo;
+      coap-delete-request;
+      coap-get-request;
+      coap-post-request;
+      coap-put-request;
+      comodo-itsm;
+      conx-meeting;
+      cortex-xdr;
+      crowdstrike;
+      dingtalk-file-transfer;
+      disco;
+      disneyplus;
+      dnp3-unsolicited-message;
+      dns-over-tls;
+      docsend;
+      dstv;
+      ether-s-bus;
+      firebase-cloud-messaging;
+      firmex-base;
+      firmex-downloading;
+      firmex-uploading;
+      free-conference-base;
+      free-conference-file-sharing;
+      ge-ecg-serial;
+      gist;
+      gist-downloading;
+      gist-editing;
+      gist-uploading;
+      glusterfs;
+      goanywhere;
+      google-messages;
+      grpc;
+      houseparty;
+      jandi;
+      kahootz;
+      kaltura-base;
+      kaltura-mediaspace-downloading;
+      kaltura-mediaspace-posting;
+      kaltura-mediaspace-sharing;
+      kaltura-mediaspace-uploading;
+      kanbanize;
+      kuaishou;
+      loomio;
+      member365;
+      mightytext;
+      mms-ics-ack-event-notification;
+      mms-ics-additional-service;
+      mms-ics-alter-event-cond-monit;
+      mms-ics-alter-event-enroll;
+      mms-ics-cancel;
+      mms-ics-conclude;
+      mms-ics-create-journal;
+      mms-ics-create-prog-invocation;
+      mms-ics-define-event-action;
+      mms-ics-define-event-condition;
+      mms-ics-define-event-enroll;
+      mms-ics-define-named-type;
+      mms-ics-define-named-var-list;
+      mms-ics-define-named-variable;
+      mms-ics-define-scattered-access;
+      mms-ics-define-semaphore;
+      mms-ics-delete-domain;
+      mms-ics-delete-event-action;
+      mms-ics-delete-event-condition;
+      mms-ics-delete-event-enroll;
+      mms-ics-delete-journal;
+      mms-ics-delete-named-type;
+      mms-ics-delete-named-var-list;
+      mms-ics-delete-prog-invocation;
+      mms-ics-delete-semaphore;
+      mms-ics-delete-var-access;
+      mms-ics-download-segment;
+      mms-ics-eventnotification;
+      mms-ics-file-close;
+      mms-ics-file-delete;
+      mms-ics-file-directory;
+      mms-ics-file-open;
+      mms-ics-file-read;
+      mms-ics-file-rename;
+      mms-ics-get-alarm-enroll-sum;
+      mms-ics-get-alarm-summary;
+      mms-ics-get-capability-list;
+      mms-ics-get-domain-attribute;
+      mms-ics-get-event-action-attr;
+      mms-ics-get-event-cond-attr;
+      mms-ics-get-event-enroll-attr;
+      mms-ics-get-name-list;
+      mms-ics-get-named-type-attr;
+      mms-ics-get-named-var-list-attr;
+      mms-ics-get-prog-invo-attr;
+      mms-ics-get-scatt-access-att;
+      mms-ics-get-var-access-attri;
+      mms-ics-identity;
+      mms-ics-informationreport;
+      mms-ics-initial-download-seq;
+      mms-ics-initialize-journal;
+      mms-ics-initiate-upload-seq;
+      mms-ics-input;
+      mms-ics-kill;
+      mms-ics-load-domain-content;
+      mms-ics-obtain-file;
+      mms-ics-output;
+      mms-ics-read;
+      mms-ics-read-journal;
+      mms-ics-relinquish-control;
+      mms-ics-rename;
+      mms-ics-rep-event-action-stat;
+      mms-ics-rep-event-enroll-stat;
+      mms-ics-report-event-cond-stat;
+      mms-ics-report-journal-status;
+      mms-ics-report-pool-sema-stat;
+      mms-ics-report-sema-entry-stat;
+      mms-ics-report-sema-status;
+      mms-ics-request-domain-download;
+      mms-ics-request-domain-upload;
+      mms-ics-reset;
+      mms-ics-resume;
+      mms-ics-start;
+      mms-ics-status;
+      mms-ics-stop;
+      mms-ics-store-domain-content;
+      mms-ics-take-control;
+      mms-ics-terminate-download-seq;
+      mms-ics-terminate-upload-seq;
+      mms-ics-trigger-event;
+      mms-ics-unsolicitedstatus;
+      mms-ics-upload-segment;
+      mms-ics-write;
+      mms-ics-write-journal;
+      monday;
+      moodle;
+      ms-onenote-downloading;
+      ms-onenote-uploading;
+      ms-quick-assist;
+      ms-teams-audio-video;
+      mural;
+      myownconference;
+      newrow;
+      nutanix;
+      onvif;
+      opc-ua-acknowledge;
+      opc-ua-activate-session-req;
+      opc-ua-add-nodes-req;
+      opc-ua-add-references-req;
+      opc-ua-browse-next-req;
+      opc-ua-browse-req;
+      opc-ua-call-method-req;
+      opc-ua-call-req;
+      opc-ua-cancel-req;
+      opc-ua-close;
+      opc-ua-close-secure-channel-req;
+      opc-ua-close-session-req;
+      opc-ua-create-session-req;
+      opc-ua-create-subscription-req;
+      opc-ua-delete-nodes-req;
+      opc-ua-delete-references-req;
+      opc-ua-delete-subscriptions-req;
+      opc-ua-error;
+      opc-ua-find-server-req;
+      opc-ua-get-endpoints-req;
+      opc-ua-hello;
+      opc-ua-history-read-req;
+      opc-ua-history-update-req;
+      opc-ua-open;
+      opc-ua-open-secure-channel-req;
+      opc-ua-publish-req;
+      opc-ua-query-first-req;
+      opc-ua-query-next-req;
+      opc-ua-read-req;
+      opc-ua-register-nodes-req;
+      opc-ua-register-servers-req;
+      opc-ua-republish-req;
+      opc-ua-set-monitoring-mode-req;
+      opc-ua-set-publishing-mode-req;
+      opc-ua-set-triggering-req;
+      opc-ua-unregister-node-req;
+      opc-ua-write-req;
+      opentun;
+      paloalto-device-telemetry;
+      paloalto-dlp-service;
+      paloalto-iot-security;
+      paloalto-zero-touch-provision;
+      pfcp;
+      philips-ecg;
+      pipedrive;
+      pipelinedeals;
+      pkix-cmp;
+      powtoon;
+      projectwise;
+      pubg;
+      qualys-agent;
+      recurly;
+      relenta;
+      retrospect-backup;
+      ring;
+      samepage;
+      scheduleonce;
+      securedocs;
+      shipstation;
+      siemens-s7-comm-plus-base;
+      siemens-s7-comm-plus-download;
+      siemens-s7-comm-plus-run-cpu;
+      siemens-s7-comm-plus-set-time;
+      siemens-s7-comm-plus-stop-cpu;
+      siemens-s7-comm-plus-upload;
+      siemens-s7-download-program;
+      siemens-s7-set-clock;
+      siemens-s7-upload-program;
+      siemens-s7-warm-restart;
+      slemma;
+      snaprevise;
+      solarwinds-agent;
+      spectrum-tv;
+      stanag-4406;
+      stanag-5066;
+      statsd;
+      streak;
+      streamtime;
+      streamyard;
+      swisstransfer;
+      sync;
+      tencent-video;
+      thundertix;
+      tradogram;
+      trakstar;
+      vmware-blast-extreme;
+      vmware-carbon-black;
+      weiyun-downloading;
+      weiyun-uploading;
+      wetransfer-downloading;
+      wetransfer-uploading;
+      whereby;
+      workplace-base;
+      workplace-downloading;
+      workplace-uploading;
+      yunpan-downloading;
+      yunpan-uploading;
+      zscaler-internet-access;
+      zscaler-private-access;
+    }
+  }
+  devices {
+    localhost.localdomain {
+      network {
+        interface {
+          ethernet {
+            ethernet1/5 {
+              aggregate-group ae1;
+            }
+            ethernet1/6 {
+              aggregate-group ae1;
+            }
+            ethernet1/7 {
+              aggregate-group ae1;
+            }
+            ethernet1/8 {
+              aggregate-group ae1;
+            }
+          }
+          loopback {
+            units;
+          }
+          vlan {
+            units;
+          }
+          tunnel {
+            units;
+          }
+          aggregate-ethernet {
+            ae1 {
+              layer3 {
+                ipv6 {
+                  neighbor-discovery {
+                    router-advertisement {
+                      enable no;
+                    }
+                  }
+                }
+                lacp {
+                  high-availability {
+                    use-same-system-mac {
+                      enable no;
+                    }
+                    passive-pre-negotiation yes;
+                  }
+                  transmission-rate slow;
+                  enable yes;
+                }
+                ndp-proxy {
+                  enabled no;
+                }
+                lldp {
+                  enable no;
+                }
+                units {
+                  ae1.21 {
+                    ipv6 {
+                      neighbor-discovery {
+                        router-advertisement {
+                          enable no;
+                        }
+                      }
+                    }
+                    ndp-proxy {
+                      enabled no;
+                    }
+                    adjust-tcp-mss {
+                      enable no;
+                    }
+                    tag 221;
+                    ip {
+                      74.206.221.1/24;
+                    }
+                    interface-management-profile external;
+                  }
+                  ae1.2 {
+                    ipv6 {
+                      neighbor-discovery {
+                        router-advertisement {
+                          enable no;
+                        }
+                      }
+                    }
+                    ndp-proxy {
+                      enabled no;
+                    }
+                    adjust-tcp-mss {
+                      enable no;
+                    }
+                    ip {
+                      67.21.53.204/29;
+                    }
+                    interface-management-profile external;
+                    tag 2;
+                  }
+                }
+              }
+            }
+          }
+        }
+        vlan;
+        virtual-wire;
+        profiles {
+          monitor-profile {
+            default {
+              interval 3;
+              threshold 5;
+              action wait-recover;
+            }
+          }
+          interface-management-profile {
+            external {
+              permitted-ip {
+                67.21.48.0/20;
+                74.206.192.0/19;
+              }
+              https yes;
+              ssh yes;
+              ping yes;
+            }
+          }
+        }
+        ike {
+          crypto-profiles {
+            ike-crypto-profiles {
+              default {
+                encryption [ aes-128-cbc 3des];
+                hash sha1;
+                dh-group group2;
+                lifetime {
+                  hours 8;
+                }
+              }
+              Suite-B-GCM-128 {
+                encryption aes-128-cbc;
+                hash sha256;
+                dh-group group19;
+                lifetime {
+                  hours 8;
+                }
+              }
+              Suite-B-GCM-256 {
+                encryption aes-256-cbc;
+                hash sha384;
+                dh-group group20;
+                lifetime {
+                  hours 8;
+                }
+              }
+            }
+            ipsec-crypto-profiles {
+              default {
+                esp {
+                  encryption [ aes-128-cbc 3des];
+                  authentication sha1;
+                }
+                dh-group group2;
+                lifetime {
+                  hours 1;
+                }
+              }
+              Suite-B-GCM-128 {
+                esp {
+                  encryption aes-128-gcm;
+                  authentication none;
+                }
+                dh-group group19;
+                lifetime {
+                  hours 1;
+                }
+              }
+              Suite-B-GCM-256 {
+                esp {
+                  encryption aes-256-gcm;
+                  authentication none;
+                }
+                dh-group group20;
+                lifetime {
+                  hours 1;
+                }
+              }
+            }
+            global-protect-app-crypto-profiles {
+              default {
+                encryption aes-128-cbc;
+                authentication sha1;
+              }
+            }
+          }
+          gateway;
+        }
+        qos {
+          profile {
+            default {
+              class-bandwidth-type {
+                mbps {
+                  class {
+                    class1 {
+                      priority real-time;
+                    }
+                    class2 {
+                      priority high;
+                    }
+                    class3 {
+                      priority high;
+                    }
+                    class4 {
+                      priority medium;
+                    }
+                    class5 {
+                      priority medium;
+                    }
+                    class6 {
+                      priority low;
+                    }
+                    class7 {
+                      priority low;
+                    }
+                    class8 {
+                      priority low;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        virtual-router {
+          default {
+            protocol {
+              bgp {
+                enable no;
+                dampening-profile {
+                  default {
+                    cutoff 1.25;
+                    reuse 0.5;
+                    max-hold-time 900;
+                    decay-half-life-reachable 300;
+                    decay-half-life-unreachable 900;
+                    enable yes;
+                  }
+                }
+                routing-options {
+                  graceful-restart {
+                    enable yes;
+                  }
+                }
+              }
+            }
+            interface [ ae1.2 ae1.21];
+            ecmp {
+              algorithm {
+                ip-modulo;
+              }
+            }
+            routing-table {
+              ip {
+                static-route {
+                  default {
+                    path-monitor {
+                      enable no;
+                      failure-condition any;
+                      hold-time 2;
+                    }
+                    nexthop {
+                      ip-address 67.21.53.201;
+                    }
+                    bfd {
+                      profile None;
+                    }
+                    metric 10;
+                    destination 0.0.0.0/0;
+                    route-table {
+                      unicast;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        tunnel {
+          ipsec;
+          global-protect-gateway;
+          global-protect-site-to-site;
+        }
+      }
+      deviceconfig {
+        system {
+          authentication-profile MainSequence;
+          ip-address 10.126.8.33;
+          netmask 255.255.255.0;
+          update-server updates.paloaltonetworks.com;
+          update-schedule {
+            threats {
+              recurring {
+                weekly {
+                  day-of-week wednesday;
+                  at 01:02;
+                  action download-only;
+                }
+              }
+            }
+          }
+          timezone Etc/UTC;
+          service {
+            disable-telnet yes;
+            disable-http yes;
+            disable-snmp no;
+          }
+          hostname p-gil1-baf-1;
+          default-gateway 10.126.8.1;
+          dns-setting {
+            servers {
+              primary 10.124.128.104;
+              secondary 10.124.128.105;
+            }
+          }
+          ntp-servers {
+            primary-ntp-server {
+              ntp-server-address 10.124.128.104;
+              authentication-type {
+                none;
+              }
+            }
+            secondary-ntp-server {
+              ntp-server-address 10.124.128.105;
+              authentication-type {
+                none;
+              }
+            }
+          }
+          snmp-setting {
+            access-setting {
+              version {
+                v2c {
+                  snmp-community-string M0v3Networks;
+                }
+              }
+            }
+          }
+        }
+        setting {
+          config {
+            rematch yes;
+          }
+          management {
+            hostname-type-in-syslog FQDN;
+          }
+        }
+        high-availability {
+          group {
+            group-id 1;
+            peer-ip 172.31.254.254;
+            peer-ip-backup 172.31.254.250;
+            election-option {
+              device-priority 70;
+              heartbeat-backup yes;
+              preemptive yes;
+              timers {
+                recommended;
+              }
+            }
+            mode {
+              active-passive {
+                passive-link-state auto;
+              }
+            }
+            monitoring {
+              link-monitoring {
+                link-group {
+                  p-gil1-cs-1_lag20 {
+                    interface [ ethernet1/5 ethernet1/6];
+                  }
+                }
+              }
+            }
+          }
+          interface {
+            ha1 {
+              ip-address 172.31.254.253;
+              netmask 255.255.255.252;
+            }
+            ha1-backup {
+              port ha1-b;
+              ip-address 172.31.254.249;
+              netmask 255.255.255.252;
+            }
+            ha2;
+            ha2-backup;
+            ha3;
+          }
+          enabled yes;
+        }
+      }
+      vsys {
+        vsys1 {
+          application;
+          application-group;
+          zone {
+            untrust {
+              network {
+                layer3 ae1.2;
+                log-setting p-cg15-ifxlog-1.movetv.com;
+              }
+            }
+            gil1_vips {
+              network {
+                layer3 ae1.21;
+                log-setting p-cg15-ifxlog-1.movetv.com;
+              }
+            }
+          }
+          service {
+            tcp_514 {
+              protocol {
+                tcp {
+                  port 514;
+                }
+              }
+            }
+            tcp_6514 {
+              protocol {
+                tcp {
+                  port 6514;
+                }
+              }
+            }
+          }
+          service-group;
+          schedule;
+          rulebase {
+            security {
+              rules {
+                gil1_vips-untrust_ssh bb3cac1d-a30c-4648-b7ad-3830ec8fbd1c {
+                  to untrust;
+                  from gil1_vips;
+                  source any;
+                  destination any;
+                  source-user any;
+                  category any;
+                  application [ ssh ssh-tunnel];
+                  service any;
+                  hip-profiles any;
+                  action deny;
+                  log-start yes;
+                  log-setting p-cg15-ifxlog-1.movetv.com;
+                }
+                gil1_vips-untrust d4a4d05c-78c4-402d-98ca-6162acab832c {
+                  to untrust;
+                  from gil1_vips;
+                  source any;
+                  destination any;
+                  source-user any;
+                  category any;
+                  application any;
+                  service any;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  log-setting p-cg15-ifxlog-1.movetv.com;
+                }
+                untrust-gil1_vips_icmp ac1098c4-6110-4389-a8bc-915a581d0ad8 {
+                  to gil1_vips;
+                  from untrust;
+                  source OurSpace;
+                  destination any;
+                  source-user any;
+                  category any;
+                  application ping;
+                  service application-default;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  log-setting p-cg15-ifxlog-1.movetv.com;
+                }
+                p-cg15-cap 2f52f3f9-5646-4291-8566-13d2509c06c0 {
+                  to gil1_vips;
+                  from untrust;
+                  source OurSpace;
+                  destination p-cg15-cap;
+                  source-user any;
+                  category any;
+                  application any;
+                  service application-default;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag [ "IPv4 VIP" APPCHECK];
+                  log-setting p-cg15-ifxlog-1.movetv.com;
+                  group-tag "IPv4 VIP";
+                }
+                p-cg15-ifxlog-1 c4cc3fc6-2a15-4141-85a3-60da44307102 {
+                  to gil1_vips;
+                  from untrust;
+                  source OurSpace;
+                  destination p-cg15-ifxlog-1;
+                  source-user any;
+                  category any;
+                  application [ httport ssl];
+                  service [ service-http service-https];
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag "IPv4 VIP";
+                  group-tag "IPv4 VIP";
+                }
+                p-cg15-ifxlog_6514 24075396-a9af-4d1e-9360-6d521912d128 {
+                  to gil1_vips;
+                  from untrust;
+                  source OurSpace;
+                  destination p-cg15-ifxlog-1;
+                  source-user any;
+                  category any;
+                  application [ ssl syslog web-browsing];
+                  service application-default;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag "IPv4 VIP";
+                  group-tag "IPv4 VIP";
+                }
+                p-cg15-ifxlog-1-1 e0f41d53-c0f8-429a-b605-95610ed8ce75 {
+                  to gil1_vips;
+                  from untrust;
+                  source OurSpace;
+                  destination 74.206.221.46;
+                  source-user any;
+                  category any;
+                  application any;
+                  service any;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag "IPv4 VIP";
+                  group-tag "IPv4 VIP";
+                }
+                p-cg15-aanr 3b47a0b9-65eb-48a0-9ca7-081c95960aad {
+                  to gil1_vips;
+                  from untrust;
+                  source any;
+                  destination p-cg15-aanr;
+                  source-user any;
+                  category any;
+                  application web-browsing;
+                  service any;
+                  hip-profiles any;
+                  tag "IPv4 VIP";
+                  action allow;
+                  log-start yes;
+                  group-tag "IPv4 VIP";
+                }
+                p-cg15-opscrashcollector 7cd0f7f1-c99a-4a75-acf6-e7d12c692087 {
+                  to gil1_vips;
+                  from untrust;
+                  source any;
+                  destination p-cg15-opscrashcollector;
+                  source-user any;
+                  category any;
+                  application ssl;
+                  service any;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag [ "IPv4 VIP" APPCHECK];
+                  group-tag "IPv4 VIP";
+                }
+                aws_p-cg15-logstash dd5a593f-5b25-4d08-a79f-92a8d32f0d72 {
+                  to gil1_vips;
+                  from untrust;
+                  source [ AE1-Prod-Nat-Gateway AE2-Prod-Nat-Gateway AW2-Prod-Nat-Gateway];
+                  destination p-cg15-logstash;
+                  source-user any;
+                  category any;
+                  application ssl;
+                  service any;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                }
+                p-cg15-upload aca001be-4f20-4fef-bab6-226c15c5944a {
+                  to gil1_vips;
+                  from untrust;
+                  source [ Meridian_NAT_Address-1 Meridian_NAT_Address-2 OurSpace];
+                  destination p-cg15-upload;
+                  source-user any;
+                  category any;
+                  application ssh;
+                  service application-default;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag "IPv4 VIP";
+                  group-tag "IPv4 VIP";
+                }
+                p-cg15-aspera f0f35940-a545-46c0-9bde-bf5223a08dac {
+                  to gil1_vips;
+                  from untrust;
+                  source any;
+                  destination p-cg15-aspera;
+                  source-user any;
+                  category any;
+                  application any;
+                  service application-default;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag "IPv4 VIP";
+                  group-tag "IPv4 VIP";
+                }
+                p-cg15-cmdb 534e2931-6c00-483b-a06e-7f1b151753cd {
+                  to gil1_vips;
+                  from untrust;
+                  source any;
+                  destination p-cg15-cmdb;
+                  source-user any;
+                  category any;
+                  application [ ssl web-browsing];
+                  service any;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag "IPv4 VIP";
+                  group-tag "IPv4 VIP";
+                }
+                p-cg15-loghost 76514695-aec8-49c8-b2a3-82f1095405a7 {
+                  to gil1_vips;
+                  from untrust;
+                  source OurSpace;
+                  destination p-cg15-loghost;
+                  source-user any;
+                  category any;
+                  application syslog;
+                  service application-default;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag;
+                }
+                p-cg15-loghost-2 d155a2b9-49db-4dea-bc83-2b51027e905d {
+                  to gil1_vips;
+                  from untrust;
+                  source any;
+                  destination p-cg15-loghost-2;
+                  source-user any;
+                  category any;
+                  application syslog;
+                  service application-default;
+                  hip-profiles any;
+                  action allow;
+                  log-start yes;
+                  tag;
+                }
+              }
+            }
+            default-security-rules {
+              rules {
+                interzone-default 9a96838b-46cd-41ff-933a-127a32b4553f {
+                  action deny;
+                  log-start yes;
+                  log-end yes;
+                  log-setting p-cg15-ifxlog-1.movetv.com;
+                }
+                intrazone-default 15d0a7db-04de-475f-97d7-b1fa26847dac {
+                  action allow;
+                  log-start yes;
+                  log-end yes;
+                  log-setting p-cg15-ifxlog-1.movetv.com;
+                }
+              }
+            }
+            application-override {
+              rules {
+                aws_p-cg15-logstash 4ee6ea00-a887-4bad-830f-d1d072af45a8 {
+                  from untrust;
+                  to gil1_vips;
+                  source [ AE2-Prod-Nat-Gateway AW2-Prod-Nat-Gateway];
+                  destination p-cg15-logstash;
+                  port 5049;
+                  protocol tcp;
+                  application ssl;
+                }
+              }
+            }
+          }
+          import {
+            network {
+              interface [ ae1 ae1.21 ae1.2];
+            }
+          }
+          address {
+            p-cg15-cap {
+              ip-netmask 74.206.221.45;
+              tag "IPv4 VIP";
+            }
+            OurSpace67 {
+              ip-netmask 67.21.48.0/20;
+            }
+            OurSpace74 {
+              ip-netmask 74.206.192.0/19;
+            }
+            p-cg15-ifxlog-1 {
+              ip-netmask 74.206.221.46;
+              tag "IPv4 VIP";
+            }
+            p-cg15-aanr {
+              ip-netmask 74.206.221.47;
+              tag "IPv4 VIP";
+            }
+            p-cg15-opscrashcollector {
+              ip-netmask 74.206.221.48;
+              tag "IPv4 VIP";
+            }
+            AE2-Ops-Prod-NatGateway-AZ2 {
+              ip-netmask 18.217.141.121;
+              tag AE2-Prod-Nat-Gateway;
+            }
+            AE2-Ops-Prod-NatGateway-AZ1 {
+              ip-netmask 18.218.218.217;
+              tag AE2-Prod-Nat-Gateway;
+            }
+            AE2-Ops-Prod-NatGateway-AZ3 {
+              ip-netmask 18.224.206.231;
+              tag AE2-Prod-Nat-Gateway;
+            }
+            p-cg15-logstash {
+              ip-netmask 74.206.221.49;
+              tag "IPv4 VIP";
+            }
+            p-cg15-upload {
+              ip-netmask 74.206.221.50;
+              tag "IPv4 VIP";
+            }
+            Meridian_NAT_Address-1 {
+              ip-netmask 66.170.252.1;
+            }
+            Meridian_NAT_Address-2 {
+              ip-netmask 66.170.243.1;
+            }
+            AW2-Ops-Prod-NatGateway-AZ1 {
+              ip-netmask 52.37.229.50;
+              tag AW2-Prod-Nat-Gateway;
+            }
+            AW2-Ops-Prod-NatGateway-AZ2 {
+              ip-netmask 52.13.154.46;
+              tag AW2-Prod-Nat-Gateway;
+            }
+            AW2-Ops-Prod-NatGateway-AZ3 {
+              ip-netmask 35.160.237.152;
+              tag AW2-Prod-Nat-Gateway;
+            }
+            p-cg15-aspera {
+              ip-netmask 74.206.221.53;
+              tag "IPv4 VIP";
+            }
+            p-cg15-cmdb {
+              ip-netmask 74.206.221.54;
+              tag "IPv4 VIP";
+            }
+            p-cg15-loghost {
+              ip-netmask 74.206.221.51;
+              tag "IPv4 VIP";
+            }
+            p-cg15-loghost-2 {
+              ip-netmask 74.206.221.52;
+              tag "IPv4 VIP";
+            }
+            AE1-Ops-Prod-NatGateway-AZ1 {
+              ip-netmask 54.156.116.148;
+              tag AE1-Prod-Nat-Gateway;
+            }
+            AE1-Ops-Prod-NatGateway-AZ2 {
+              ip-netmask 52.20.160.218;
+              tag AE1-Prod-Nat-Gateway;
+            }
+            AE1-Ops-Prod-NatGateway-AZ3 {
+              ip-netmask 52.204.133.214;
+              tag AE1-Prod-Nat-Gateway;
+            }
+          }
+          tag {
+            "IPv4 VIP" {
+              color color2;
+            }
+            "IPv6 VIP" {
+              color color4;
+            }
+            APPCHECK {
+              color color1;
+            }
+            APPVERIFIED {
+              color color13;
+            }
+            AE2-Prod-Nat-Gateway;
+            AW2-Prod-Nat-Gateway;
+            AE1-Prod-Nat-Gateway;
+          }
+          address-group {
+            OurSpace {
+              static [ OurSpace67 OurSpace74];
+            }
+            AE2-Prod-Nat-Gateway {
+              dynamic {
+                filter 'AE2-Prod-Nat-Gateway';
+              }
+            }
+            AW2-Prod-Nat-Gateway {
+              dynamic {
+                filter 'AW2-Prod-Nat-Gateway';
+              }
+            }
+            AE1-Prod-Nat-Gateway {
+              dynamic {
+                filter 'AE1-Prod-Nat-Gateway';
+              }
+            }
+          }
+          log-settings {
+            profiles {
+              p-gil1-ifxcol {
+                match-list {
+                  p-gil1-ifxcol-traffic {
+                    send-syslog p-gil1-ifxcol;
+                    log-type traffic;
+                    filter "All Logs";
+                    send-to-panorama no;
+                  }
+                  p-gil1-ifxcol-threat {
+                    send-syslog p-gil1-ifxcol;
+                    log-type threat;
+                    filter "All Logs";
+                    send-to-panorama no;
+                  }
+                  p-gil1-ifxcol-auth {
+                    send-syslog p-gil1-ifxcol;
+                    log-type auth;
+                    filter "All Logs";
+                    send-to-panorama no;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
